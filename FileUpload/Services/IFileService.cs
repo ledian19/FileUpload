@@ -8,6 +8,6 @@ namespace FileUpload.Services
 
         public Task PostMultiFileAsync(List<FileUploadModel> fileData);
 
-        public Task DownloadFileById(int id);
+        public Task<FileDetails> GetFileById(int id);
     }
 }

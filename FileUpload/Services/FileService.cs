@@ -45,20 +45,9 @@ namespace FileUpload.Services {
             await _dbContextClass.SaveChangesAsync();
         }
 
-        public async Task DownloadFileById(int id) {
-            var file = _dbContextClass.FileDetails.Where(x => x.Id == id).FirstOrDefaultAsync();
-
-            var content = new MemoryStream(file.Result.FileData);
-            var path = Path.Combine(
-                Directory.GetCurrentDirectory(), "FileDownloaded",
-                file.Result.FileName);
-
-            await CopyStream(content, path);
-        }
-
-        private static async Task CopyStream(Stream stream, string downloadPath) {
-            await using var fileStream = new FileStream(downloadPath, FileMode.Create, FileAccess.Write);
-            await stream.CopyToAsync(fileStream);
+        public async Task<FileDetails> GetFileById(int id) {
+            var file = await _dbContextClass.FileDetails.Where(x => x.Id == id).FirstOrDefaultAsync();
+            return file;
         }
     }
 }
